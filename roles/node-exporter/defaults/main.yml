@@ -1,0 +1,6 @@
+node_exporter_unix_user: node_exporter
+node_exporter_release_url: https://github.com/prometheus/node_exporter/releases/download
+node_exporter_release_version: 1.8.1
+node_exporter_release_arch: linux-amd64
+node_exporter_unarchive_path: /tmp/node_exporter 
+node_exporter_service_name: node_exporter

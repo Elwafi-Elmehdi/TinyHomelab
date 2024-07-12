@@ -1,0 +1,48 @@
+---
+- name: Download the tarball
+  ansible.builtin.get_url:
+    url: "{{node_exporter_release_url }}/v{{ node_exporter_release_version }}/node_exporter-{{ node_exporter_release_version }}.{{node_exporter_release_arch}}.tar.gz"
+    dest: "{{node_exporter_unarchive_path}}.tar.gz"
+    mode: "0660"
+
+
+- name: create a user
+  ansible.builtin.user:
+    name: "{{ node_exporter_unix_user }}"
+    shell: /bin/false
+    create_home: false
+
+- name: create directory
+  ansible.builtin.file:
+    path: "{{node_exporter_unarchive_path}}"
+    state: directory
+    mode: "0775"
+
+- name: extract tarball
+  ansible.builtin.unarchive:
+    src: "{{node_exporter_unarchive_path}}.tar.gz"
+    remote_src: true
+    dest: "{{node_exporter_unarchive_path}}"  
+    mode: "0660"
+    creates: "{{node_exporter_unarchive_path}}/LICENSE"
+
+- name: move executable to bin
+  ansible.builtin.copy:
+    src: "{{node_exporter_unarchive_path}}/node_exporter-{{node_exporter_release_version}}.{{node_exporter_release_arch}}/node_exporter"
+    dest: /usr/bin/local
+    owner: "{{ node_exporter_unix_user }}"  
+    group: "{{ node_exporter_unix_user }}"  
+    mode: "0775"
+
+- name: deploy service file
+  ansible.builtin.template:
+    src: node-exporter.service.j2
+    dest: "/etc/systemd/system/{{node_exporter_service_name}}.service"
+
+- name: reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "{{node_exporter_service_name}}"
+    enabled: true
+    state: started
+    

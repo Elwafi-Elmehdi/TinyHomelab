@@ -1,0 +1,5 @@
+---
+- name: set hostname
+  ansible.builtin.hostname:
+    name: "{{ instance_hostname }}"
+    use: debian
