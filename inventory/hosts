@@ -1,5 +1,20 @@
-monitoring:
-  hosts:
-    192.168.1.10: # Grafana and Prometheus
-    192.168.1.20: # Elastic Stack
-    
+all:
+  children:
+        prometheus:
+          hosts:
+            192.168.1.10:
+        grafana:
+          hosts:
+            192.168.1.10:
+        db-master:
+          hosts:
+            192.168.1.20:
+        db-slave:
+          hosts:
+            192.168.1.40:
+        redmine:
+          hosts:
+            192.168.1.60:
+        tower:
+          hosts:
+            192.168.1.30:
