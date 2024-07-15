@@ -9,3 +9,6 @@
     name: "{{ item.name }}"
     state: "{{ item.version }}"
   with_items: "{{software_packages}}"
+  notify:
+    - remove packages
+    - remove unused deps
