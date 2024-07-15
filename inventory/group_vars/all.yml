@@ -5,3 +5,8 @@ software_packages:
     version: latest
   - name: tuned
     version: latest
+  - name: curl
+    version: latest
+  - name: net-tools
+    version: latest
+
