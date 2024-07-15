@@ -1,0 +1,8 @@
+---
+- name: Initial config boostrapping
+  hosts: all
+  become: true
+  roles:
+    - ../roles/hostname
+    - ../roles/bootstrap
+    - ../roles/node-exporter
