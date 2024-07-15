@@ -6,7 +6,6 @@ all:
         grafana:
           hosts:
             192.168.1.10:
-        db-master:
           hosts:
             192.168.1.20:
         db-slave:

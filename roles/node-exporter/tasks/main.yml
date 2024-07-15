@@ -29,7 +29,8 @@
 - name: move executable to bin
   ansible.builtin.copy:
     src: "{{node_exporter_unarchive_path}}/node_exporter-{{node_exporter_release_version}}.{{node_exporter_release_arch}}/node_exporter"
-    dest: /usr/bin/local
+    remote_src: true
+    dest: /usr/local/bin/node_exporter
     owner: "{{ node_exporter_unix_user }}"  
     group: "{{ node_exporter_unix_user }}"  
     mode: "0775"
@@ -45,4 +46,4 @@
     name: "{{node_exporter_service_name}}"
     enabled: true
     state: started
-    
+

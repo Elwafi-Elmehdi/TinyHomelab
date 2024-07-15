@@ -4,8 +4,10 @@ software_packages:
   - name: htop
     version: latest
   - name: tuned
-    version: latest
+    version: latest    
   - name: curl
     version: latest   
   - name: net-tools
+    version: latest
+  - name: neovim
     version: latest
