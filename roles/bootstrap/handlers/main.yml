@@ -1,0 +1,8 @@
+---
+- name: remove packages
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: remove unused deps
+  ansible.builtin.apt:
+    autoremove: yes
