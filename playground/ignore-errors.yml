@@ -1,0 +1,16 @@
+---
+- name: a playbook to experiment with ignore_failure
+  hosts: localhost
+  tasks:
+    - name: vie /tmp content
+      shell: "ls -ltra /tmp"
+      register: output
+
+    - ansible.builtin.debug:
+        msg: "the output of /tmp files is {{output.stdout}}"
+        
+    - name: edit foo file
+      ansible.builtin.lineinfile:
+        path: /tmp/foo
+        line: "salam"
+      ignore_errors: true

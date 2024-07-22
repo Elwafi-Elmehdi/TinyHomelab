@@ -1,0 +1,18 @@
+---
+
+- name: experiment with hen conditionals
+  hosts: all
+  tasks:
+    - name: create the file
+      ansible.builtin.file:
+        path: /tmp/special-file
+        state: touch
+        mode: 0755
+      when: ansible_hostname == "tower"
+    - name: edit special file
+      ansible.builtin.lineinfile:
+        path: /tmp/special-file
+        line: "Hello I am a special file!"
+      when: ansible_hostname == "tower"
+    - ansible.builtin.debug:
+        msg: "the value of hostname is {{ansible_hostname}}"

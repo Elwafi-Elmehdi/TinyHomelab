@@ -1,0 +1,18 @@
+---
+- name: test variables
+  hosts: localhost
+  tasks:
+    - name: copy hosts to /tmp
+      ansible.builtin.copy:
+        src: /etc/hosts
+        dest: /tmp/hosts
+        mode: 0744
+      register: output
+    
+    - ansible.builtin.debug:
+        msg: "the output is {{output}}"
+
+    - name: copy gid
+      ansible.builtin.lineinfile:
+        path: /tmp/new
+        line: "{{output.gid}}"

@@ -1,0 +1,22 @@
+---
+- name: a playbook to experiment with 
+  hosts: localhost
+  tasks:
+    - block:
+      - ansible.builtin.file:
+        path: /tmp/data
+        state: directory
+
+      - name: edit a file
+        ansible.builtin.lineinfile:
+          path: /tmp/data/bar
+          line: "salam sava"
+
+      - ansible.builtin.debug:
+          msg: "the block ran yay! :-D"
+      rescue:
+        - ansible.builtin.debug:
+            msg: "Noo the block didn't run :-("
+      always:
+        - ansible.builtin.debug:
+            msg: "I run nomatter what B-)"
