@@ -11,10 +11,9 @@ all:
         db-slave:
           hosts:
             192.168.1.40:
-        redmine:
+        vault:
           hosts:
-            192.168.1.60:
+            192.168.1.70:
         tower:      
           hosts:
             192.168.1.30:
-    

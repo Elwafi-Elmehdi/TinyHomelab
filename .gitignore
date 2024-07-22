@@ -123,4 +123,3 @@ test/units/.coverage.*
 changelogs/.plugin-cache.yaml
 .ansible-test-timeout.json
 homelab-manifesto.md
-playground
