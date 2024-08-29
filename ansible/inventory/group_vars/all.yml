@@ -11,3 +11,6 @@ software_packages:
     version: latest
   - name: neovim
     version: latest
+  - name: unzip
+    version: latest
+

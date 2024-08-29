@@ -1,0 +1,5 @@
+vault_release_url: https://releases.hashicorp.com/vault
+vault_release_version: 1.17.2
+vault_release_arch: linux_amd64
+vault_download_path: /tmp/
+vault_user: vault

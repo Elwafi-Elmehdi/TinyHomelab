@@ -1,0 +1,6 @@
+---
+- name: Vault runbook
+  hosts: all
+  become: true
+  roles:
+  - ../roles/vault

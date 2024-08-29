@@ -1,0 +1,40 @@
+---
+- name: Download the tarball
+  ansible.builtin.get_url:
+    url: "{{vault_release_url}}/{{vault_release_version}}/vault_{{vault_release_version}}_{{vault_release_arch}}.zip"
+    dest: "{{vault_download_path}}.zip"
+    mode: "0660"
+
+- name: create unix user
+  ansible.builtin.user:
+    name: {{vault_user}}
+    shell: /bin/false 
+    create_home: false
+
+- name: create directories
+  ansible.builtin.file:
+    path: {{item}}
+    state: directory
+    owner: {{vault_user}}
+    group: {{vault_user}}
+    mode: '0755'
+  with_items: 
+    - /etc/vault.d/
+    - /var/log/vault/
+    - /var/lib/vault/
+
+- name: extract zip file
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{vault_download_path}}/vault.zip"
+    dest: "{{vault_download_path}}/vault"
+    creates: "{{vault_download_path}}/vault/LICENSE.txt"
+
+- name: move executable to $PATH
+  ansible.builtin.copy:
+    src: "{vault_download_path}}/vault/vault"
+    remote_src: true
+    dest: /usr/local/bin/vault
+    owner: "{{ vault_user }}"  
+    group: "{{ vault_user }}"  
+    mode: "0775"
