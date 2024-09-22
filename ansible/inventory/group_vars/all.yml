@@ -13,4 +13,6 @@ software_packages:
     version: latest
   - name: unzip
     version: latest
+  - name: sysstat
+    version: latest
 

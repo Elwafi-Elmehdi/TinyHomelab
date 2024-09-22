@@ -1,0 +1,13 @@
+---
+- hosts: local
+  vars:
+    inv_file: ~/user.txt
+  tasks:
+  - name: create a file
+    ansible.builtin.file:
+      path: "{{  inv_file  }}"
+      state: touch
+  - name: generate inventory
+    ansible.builtin.lineinfile:
+      path: "{{  inv_file  }}"
+      line: "{{  groups['all'] }}"
