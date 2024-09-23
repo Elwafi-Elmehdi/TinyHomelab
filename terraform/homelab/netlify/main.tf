@@ -29,3 +29,10 @@ resource "netlify_dns_record" "grafana_record" {
   hostname = "grafana.mehdij4.com"
   value    = "192.168.1.10"
 }
+
+resource "netlify_dns_record" "tower_record" {
+  type     = "A"
+  zone_id  = data.netlify_dns_zone.mehdij4_zone.id
+  hostname = "tower.mehdij4.com"
+  value    = "192.168.1.30"
+}
