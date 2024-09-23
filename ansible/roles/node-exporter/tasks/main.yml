@@ -5,7 +5,6 @@
     dest: "{{node_exporter_unarchive_path}}.tar.gz"
     mode: "0660"
 
-
 - name: create a user
   ansible.builtin.user:
     name: "{{ node_exporter_unix_user }}"
