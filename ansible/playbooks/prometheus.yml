@@ -1,0 +1,6 @@
+---
+- name: Change hostname 
+  hosts: all
+  become: true
+  roles:
+    - ../roles/prometheus

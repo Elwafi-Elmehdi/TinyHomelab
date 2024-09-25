@@ -11,7 +11,7 @@ all:
             grafana.mehdij4.com:
         vault:
           hosts:
-            tower.mehdij4.com:
+            vault.mehdij4.com:
         tower:      
           hosts:
-             vault.mehdij4.com:
+             tower.mehdij4.com:

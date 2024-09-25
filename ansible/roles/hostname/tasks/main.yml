@@ -1,5 +1,5 @@
 ---
 - name: set hostname
   ansible.builtin.hostname:
-    name: "{{ instance_hostname }}"
+    name: "{{ inventory_hostname }}"
     use: debian

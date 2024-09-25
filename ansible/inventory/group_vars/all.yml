@@ -19,3 +19,5 @@ software_packages:
     version: latest
   - name: sysstat
     version: latest
+  - name: iftop
+    version: latest
