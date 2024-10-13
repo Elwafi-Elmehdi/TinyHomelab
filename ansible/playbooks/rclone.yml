@@ -1,0 +1,24 @@
+---
+- name: rclone playbook
+  hosts: all
+  tasks:
+    - name: Install and configure rclone
+      ansible.builtin.include_role:
+        name: stefangweichinger.ansible_rclone
+      vars:
+        rclone_version: "1.68.1"
+        rclone_arch: "amd64"
+        rclone_binary_owner:
+          OWNER: rclone
+          GROUP: rclone
+        rclone_configs:
+          - name: laptop
+            properties:
+              type: http
+              url: http://laptop.mehdij4.com
+          - name: s3-goods
+            properties:
+              type: s3
+              region: "eu-central-1"
+              access_key_id: "{{ lookup('community.hashi_vault.hashi_vault', vault_secret_env_path + 'AWS:ACCESS_KEY') }}"
+              secret_access_key: "{{ lookup('community.hashi_vault.hashi_vault', vault_secret_env_path + 'AWS:SECRET_KEY') }}"
