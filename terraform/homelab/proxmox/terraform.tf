@@ -6,4 +6,11 @@ terraform {
       version = "3.0.1-rc4"
     }
   }
+  backend "s3" {
+    profile        = "personnel-aws"
+    bucket         = "mehdij4-tinyhomelab-terraform-statefile"
+    key            = "homelab/proxmox/terraform.tfstate"
+    region         = "eu-west-2"
+    dynamodb_table = "terraform-locks"
+  }
 }

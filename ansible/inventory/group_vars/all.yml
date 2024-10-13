@@ -1,3 +1,7 @@
+# vault vars
+vault_secret_env_path: "homelab/data/"
+
+# bootstrap
 software_packages:
   - name: qemu-guest-agent
     version: latest
