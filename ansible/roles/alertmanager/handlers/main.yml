@@ -1,0 +1,8 @@
+---
+- name: restart alertmanager
+  ansible.builtin.service:
+    name: "{{ alert_manager_service_name }}"
+    state: restarted
+
+- name: reload alertmanager
+  shell: curl -X POST localhost:"{{ alert_manager_tcp_port }}"/-/reload

@@ -1,0 +1,107 @@
+---
+- name: get alertmanager
+  shell: "alertmanager --version"
+  ignore_errors: true 
+  register: alertmanager_cmd
+
+- name: Download the tarball
+  ansible.builtin.get_url:
+    url: "{{ alert_manager_release_url }}/v{{ alert_manager_release_version }}/alertmanager-{{ alert_manager_release_version }}.{{ alert_manager_release_arch }}.tar.gz"
+    dest: "{{ alert_manager_download_dir }}/{{ alert_manager_release_name }}.tar.gz"
+    mode: "0660"
+  when: (alertmanager_cmd.rc != 0 )
+
+- name: create a user
+  ansible.builtin.user:
+    name: "{{ alert_manager_unix_user }}"
+    shell: /bin/false
+    create_home: false
+  when: (alertmanager_cmd.rc != 0 )
+
+- name: create directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ alert_manager_unix_user }}"
+    group: "{{ alert_manager_unix_group }}"
+    mode: "0775"
+  with_items:
+    - "{{ alert_manager_download_dir }}{{ alert_manager_release_name }}"
+    - "{{ alert_manager_data_dir }}"
+    - "/etc/alertmanager"
+    - "/etc/alertmanager/templates/"
+    - "/var/log/alertmanager"
+    - "~/.config/amtool"
+  when: (alertmanager_cmd.rc != 0 )
+
+
+- name: extract tarball
+  ansible.builtin.unarchive:
+    src: "{{ alert_manager_download_dir }}/{{ alert_manager_release_name }}.tar.gz"
+    remote_src: true
+    dest: "{{ alert_manager_download_dir }}"  
+    mode: "0660"
+    creates: "{{ alert_manager_download_dir }}/{{ alert_manager_release_name }}/LICENSE"
+  when: (alertmanager_cmd.rc != 0 )
+
+- name: move files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: true
+    owner: "{{ alert_manager_unix_user }}"  
+    group: "{{ alert_manager_unix_group }}"  
+    mode: "0775"
+  with_items:
+    - src: "{{ alert_manager_download_dir }}/alertmanager-{{ alert_manager_release_version }}.{{ alert_manager_release_arch }}/alertmanager"
+      dest: /usr/local/bin/
+    - src: "{{ alert_manager_download_dir }}/alertmanager-{{ alert_manager_release_version }}.{{ alert_manager_release_arch }}/amtool" 
+      dest: /usr/local/bin/
+  when: (alertmanager_cmd.rc != 0 )
+
+- name: create alertmanager.log
+  ansible.builtin.file:
+    path: "{{ alert_manager_log_path }}"
+    state: file
+    owner: "{{ alert_manager_unix_user }}"
+    group: syslog
+    mode: 0770
+
+- name: copy configs
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ alert_manager_unix_user }}" 
+    group: "{{ alert_manager_unix_group }}"
+    mode: "0774"
+  with_items:
+    - src: alertmanager.yml.j2
+      dest: /etc/alertmanager/alertmanager.yml
+    - src: "amtool-config.yml.j2"
+      dest: '~/.config/amtool/config.yml'
+  notify: reload alertmanager
+  tags:
+    - config
+
+- name: verify config
+  shell: amtool check-config /etc/alertmanager/alertmanager.yml
+  register: amtool_output
+  notify: reload alertmanager 
+  tags:
+    - config
+
+- name: deploy service file
+  ansible.builtin.template:
+    src: alert_manager.service.j2
+    dest: "/etc/systemd/system/{{ alert_manager_service_name }}.service"
+  tags:
+    - config
+
+- name: reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "{{ alert_manager_service_name }}"
+    enabled: true
+    state: restarted
+  tags:
+    - config

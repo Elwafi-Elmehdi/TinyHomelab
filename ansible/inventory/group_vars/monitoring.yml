@@ -1,0 +1,6 @@
+---
+# prometheus role configs
+prometheus_version: 2.55.0
+prometheus_storage_retention: "365d"
+prometheus_storage_retention_size: "10GB"
+

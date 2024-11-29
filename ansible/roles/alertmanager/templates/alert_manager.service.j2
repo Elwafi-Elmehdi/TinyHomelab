@@ -1,0 +1,22 @@
+{{ ansible_managed | comment }}
+[Unit]
+Description=Alert Manager
+Documentation=https://github.com/prometheus/alertmanager
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ alert_manager_unix_user }}
+ExecStart=/usr/local/bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml\
+    --web.listen-address=:{{ alert_manager_tcp_port }}\
+    --storage.path={{ alert_manager_data_dir }}\
+    --data.retention={{ alert_manager_data_retention_duration }}\
+    --log.level={{ alert_manager_log_level }}\
+    --cluster.listen-address="0.0.0.0:9028"\
+    --cluster.advertise-address="{{ ansible_default_ipv4['address'] }}:9028"\
+
+ExecReload=/bin/curl -X POST http://localhost:{{ alert_manager_tcp_port }}/-/reload
+Restart=always
+
+[Install]
+WantedBy=default.target

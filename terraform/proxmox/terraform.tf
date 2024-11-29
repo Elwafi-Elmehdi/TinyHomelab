@@ -5,6 +5,10 @@ terraform {
       source  = "Telmate/proxmox"
       version = "3.0.1-rc4"
     }
+    vault = {
+      source  = "hashicorp/vault"
+      version = "4.4.0"
+    }
   }
   backend "s3" {
     profile        = "personnel-aws"

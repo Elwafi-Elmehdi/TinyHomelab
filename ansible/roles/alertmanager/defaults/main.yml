@@ -1,0 +1,16 @@
+---
+alert_manager_release_url: https://github.com/prometheus/alertmanager/releases/download/
+alert_manager_release_version: 0.27.0
+alert_manager_release_arch: linux-amd64
+alert_manager_release_name: alert-manager
+alert_manager_download_dir: /tmp/
+alert_manager_unix_user: prometheus
+alert_manager_unix_group: prometheus
+alert_manager_tcp_port: 9027
+alert_manager_service_name: alert-manager
+alert_manager_data_dir: /var/lib/alertmanager
+alert_manager_data_retention_duration: 30d
+alert_manager_log_level: info
+alert_manager_log_path: /var/log/alertmanager/alertmanager.log
+alert_manager_default_repeat_interval: 6h
+alert_manager_default_resolve_timeout: 3h

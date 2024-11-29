@@ -25,3 +25,5 @@ software_packages:
     version: latest
   - name: iftop
     version: latest
+  - name: lsof
+    version: latest

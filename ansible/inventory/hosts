@@ -1,14 +1,14 @@
 all:
   children:
+        jenkins:
+          hosts:
+            jenkins.mehdij4.com:
         proxmox:
           hosts:
             pve1.mehdij4.com:
-        prometheus:
+        monitoring:
           hosts:
-            prometheus.mehdij4.com:
-        grafana:
-          hosts:
-            grafana.mehdij4.com:
+            monitoring.mehdij4.com:
         vault:
           hosts:
             vault.mehdij4.com:

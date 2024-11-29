@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+global:
+  resolve_timeout: {{ alert_manager_default_resolve_timeout }}
+
+templates:
+- '/etc/alertmanager/templates/*.tmpl'
+
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 2m
+  repeat_interval: {{ alert_manager_default_repeat_interval }}
+
+receivers:

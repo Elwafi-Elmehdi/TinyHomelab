@@ -16,17 +16,10 @@ resource "netlify_dns_record" "proxmox1_record" {
   value    = "192.168.1.1"
 }
 
-resource "netlify_dns_record" "prometheus_record" {
+resource "netlify_dns_record" "monitoring_record" {
   type     = "A"
   zone_id  = data.netlify_dns_zone.mehdij4_zone.id
-  hostname = "prometheus.mehdij4.com"
-  value    = "192.168.1.10"
-}
-
-resource "netlify_dns_record" "grafana_record" {
-  type     = "A"
-  zone_id  = data.netlify_dns_zone.mehdij4_zone.id
-  hostname = "grafana.mehdij4.com"
+  hostname = "monitoring.mehdij4.com"
   value    = "192.168.1.10"
 }
 
@@ -34,5 +27,5 @@ resource "netlify_dns_record" "tower_record" {
   type     = "A"
   zone_id  = data.netlify_dns_zone.mehdij4_zone.id
   hostname = "tower.mehdij4.com"
-  value    = "192.168.1.30"
+  value    = "192.168.1.20"
 }
